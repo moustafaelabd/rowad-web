@@ -6,16 +6,16 @@
 (function () {
   "use strict";
 
-  const API_BASE = "";
+  const API_BASE = "HTTPS://ROWAD-WEB.ONRENDER.COM";
   const page = document.getElementById("articlePage");
 
   if (!page) return;
 
-  function resolveImage(path) {
+ function resolveImage(path) {
     if (!path) return "";
     if (/^https?:\/\//i.test(path)) return path;
-    return "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
-  }
+    return API_BASE + "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
+}
 
   function formatDate(value) {
     if (!value) return "";

@@ -1,3 +1,5 @@
+const API_BASE = "https://rowad-web.onrender.com";
+
 document.addEventListener("DOMContentLoaded", function () {
 
     /* =====================================================
@@ -124,7 +126,7 @@ let products = [];
 function resolveProductImage(path) {
     if (!path) return "";
     if (/^https?:\/\//i.test(path)) return path;
-    return "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
+    return API_BASE + "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
 }
 
 function mapApiProduct(p) {
@@ -149,7 +151,7 @@ async function loadProductsFromAPI() {
 
     try {
 
-        const res = await fetch("/api/products");
+        const res = await fetch(API_BASE + "/api/products");
         const data = await res.json();
 
         const raw = Array.isArray(data) ? data : (data.products || data.data || []);

@@ -7,17 +7,19 @@
 (function () {
   "use strict";
 
+  const API_BASE = "https://rowad-web.onrender.com";
+
   function resolveImage(path) {
     if (!path) return "";
     if (/^https?:\/\//i.test(path)) return path;
-    return "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
+    return API_BASE + "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
   }
 
   async function applySettings() {
     let data;
 
     try {
-      const res = await fetch("/api/settings");
+      const res = await fetch(API_BASE + "/api/settings");
       data = await res.json();
     } catch (err) {
       console.warn("تعذر تحميل الإعدادات العامة:", err);

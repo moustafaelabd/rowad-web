@@ -8,6 +8,8 @@
 (function () {
   "use strict";
 
+  const API_BASE = "https://rowad-web.onrender.com";
+
   const page = document.getElementById("productDetailsPage");
   if (!page) return;
 
@@ -25,7 +27,7 @@
   function resolveImage(path) {
     if (!path) return "";
     if (/^https?:\/\//i.test(path)) return path;
-    return "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
+    return API_BASE + "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
   }
 
   function extractList(data, keys) {
@@ -78,7 +80,7 @@
 
   async function loadCategories() {
     try {
-      const res = await fetch("/api/categories");
+      const res = await fetch(API_BASE + "/api/categories");
       const data = await res.json();
       categories = extractList(data, ["categories", "data", "rows"]);
     } catch (e) {
@@ -89,7 +91,7 @@
   // ✅ جلب رقم الواتساب من إعدادات الموقع (لوحة التحكم)
   async function loadSettings() {
     try {
-      const res = await fetch("/api/settings");
+      const res = await fetch(API_BASE + "/api/settings");
       if (!res.ok) return;
 
       const data = await res.json();
@@ -106,7 +108,7 @@
   // ولو فشل أو مش موجود، بيرجع يجيب كل المنتجات ويفلتر بالـ id
   async function loadProduct(id) {
     try {
-      const res = await fetch("/api/products/" + encodeURIComponent(id));
+      const res = await fetch(API_BASE + "/api/products/" + encodeURIComponent(id));
       if (res.ok) {
         const data = await res.json();
         const single = data && typeof data === "object" && !Array.isArray(data)
@@ -122,7 +124,7 @@
     }
 
     try {
-      const res = await fetch("/api/products?page=1&limit=1000");
+      const res = await fetch(API_BASE + "/api/products?page=1&limit=1000");
       if (!res.ok) return null;
       const data = await res.json();
       const list = extractList(data, ["products", "data", "rows", "items"]);

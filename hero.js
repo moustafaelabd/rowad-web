@@ -2,12 +2,12 @@
    رواد الظل | hero.js
    بيجيب سلايدات الصفحة الرئيسية من /api/hero-slides
    ويشغّل: السلايدر + الدوتس + العدّاد + الفيديو مود
-   حط الملف ده بدل الكود القديم اللي كان بيتحكم في نفس العناصر
-   جوه script.js (لو موجود فيه)، أو ضيفه كسكريبت مستقل بعد script.js
 ========================================================= */
 
 (function () {
   "use strict";
+
+  const API_BASE = "https://rowad-web.onrender.com";
 
   const heroSlidesEl = document.getElementById("heroSlides");
   if (!heroSlidesEl) return; // مش موجودين في صفحة السلايدر أصلاً
@@ -42,7 +42,7 @@
   function resolveImage(path) {
     if (!path) return "";
     if (/^https?:\/\//i.test(path)) return path;
-    return "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
+    return API_BASE + "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
   }
 
   function pad(num) {
@@ -55,7 +55,7 @@
 
   async function loadSlides() {
     try {
-      const res = await fetch("/api/hero-slides");
+      const res = await fetch(API_BASE + "/api/hero-slides");
       const data = await res.json();
       slides = Array.isArray(data) ? data : data.slides || data.data || [];
     } catch (err) {

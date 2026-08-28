@@ -6,7 +6,7 @@
 (function () {
   "use strict";
 
-  const API_BASE = "";
+  const API_BASE = "HTTPS://ROWAD-WEB.ONRENDER.COM";
   const VISIBLE_COUNT = 3;
 
   const slider = document.getElementById("shadowArticlesSlider");

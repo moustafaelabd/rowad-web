@@ -9,11 +9,11 @@
   const track = document.getElementById("projectsTrack");
   if (!track) return;
 
-  function resolveImage(path) {
+ function resolveImage(path) {
     if (!path) return "";
     if (/^https?:\/\//i.test(path)) return path;
-    return "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
-  }
+    return API_BASE + "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
+}
 
   function buildCard(project) {
     const img = resolveImage(project.image);

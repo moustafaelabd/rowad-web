@@ -6,7 +6,7 @@
 (function () {
   "use strict";
 
-  const API_BASE = "";
+  const API_BASE = "HTTPS://ROWAD-WEB.ONRENDER.COM";
   const PER_PAGE = 9;
 
   const grid = document.getElementById("articlesListGrid");

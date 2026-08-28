@@ -8,6 +8,8 @@
 (function () {
   "use strict";
 
+  const API_BASE = "https://rowad-web.onrender.com";
+
   const itemsContainer = document.getElementById("cartItemsContainer");
   const summaryContainer = document.getElementById("cartSummaryContainer");
 
@@ -20,13 +22,13 @@
   function resolveImage(path) {
     if (!path) return "";
     if (/^https?:\/\//i.test(path)) return path;
-    return "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
+    return API_BASE + "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
   }
 
   // ✅ جلب رقم الواتساب من إعدادات الموقع (لوحة التحكم)
   async function loadSettings() {
     try {
-      const res = await fetch("/api/settings");
+      const res = await fetch(API_BASE + "/api/settings");
       if (!res.ok) return;
 
       const data = await res.json();

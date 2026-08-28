@@ -27,11 +27,11 @@
      أدوات مساعدة
   --------------------------------------------------- */
 
-  function resolveImage(path) {
+ function resolveImage(path) {
     if (!path) return "";
     if (/^https?:\/\//i.test(path)) return path;
-    return "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
-  }
+    return API_BASE + "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
+}
 
   // يقرأ أي شكل استجابة قادم من الـ API (array مباشر، أو متغلف بأي مفتاح شائع)
   function extractList(data, keys) {

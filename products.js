@@ -24,11 +24,11 @@
      أدوات مساعدة
   --------------------------------------------------- */
 
-  function resolveImage(path) {
+ function resolveImage(path) {
     if (!path) return "";
     if (/^https?:\/\//i.test(path)) return path;
-    return "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
-  }
+    return API_BASE + "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
+}
 
   function extractList(data, keys) {
     if (Array.isArray(data)) return data;

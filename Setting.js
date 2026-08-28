@@ -7,11 +7,11 @@
 (function () {
   "use strict";
 
-  function resolveImage(path) {
+ function resolveImage(path) {
     if (!path) return "";
     if (/^https?:\/\//i.test(path)) return path;
-    return "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
-  }
+    return API_BASE + "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
+}
 
   async function applySettings() {
     let data;

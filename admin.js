@@ -64,8 +64,8 @@
      CONFIG
   ========================================================= */
 
-  const API_BASE = ""; // نفس الأوريجن (السيرفر بيسيرف /admin و /api مع بعض)
-  const TOKEN_KEY = "rw_admin_token";
+const API_BASE = "https://rowad-web.onrender.com"; 
+ const TOKEN_KEY = "rw_admin_token";
   const PRODUCTS_PER_PAGE = 10;
   const ARTICLES_PER_PAGE = 10;
 
@@ -256,11 +256,11 @@
     });
   }
 
-  function resolveImage(path) {
+ function resolveImage(path) {
     if (!path) return "";
     if (/^https?:\/\//i.test(path)) return path;
-    return "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
-  }
+    return API_BASE + "/uploads/" + path.replace(/^\/?(uploads\/)?/, "");
+}
 
   function openModal(modal) {
     if (modal) modal.classList.add("active");
