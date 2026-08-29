@@ -3,7 +3,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const { sequelize } = require("./models");
+const bcrypt = require("bcryptjs");
+const { sequelize, Admin } = require("./models");
 const authRoutes = require("./routes/authRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
 const productRoutes = require("./routes/productRoutes");
@@ -58,6 +59,7 @@ app.get("/cart", (req, res) => {
 // Static files (public folder: uploads, etc.)
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.static(path.join(__dirname))); // يخدم أي ملف في الجذر زي admin.css
+
 // =========================
 // API
 // =========================
@@ -80,6 +82,42 @@ app.get("/", (req, res) => {
 });
 
 // =========================
+// إنشاء حساب أدمن تلقائي عند أول تشغيل
+// (لو مش موجود، ويتم تحديد بياناته من Environment Variables)
+// =========================
+
+async function ensureAdminExists() {
+  const email = process.env.ADMIN_EMAIL;
+  const password = process.env.ADMIN_PASSWORD;
+
+  if (!email || !password) {
+    console.log("ℹ️ ADMIN_EMAIL أو ADMIN_PASSWORD غير موجودين في Environment، تم تخطي إنشاء الأدمن التلقائي");
+    return;
+  }
+
+  try {
+    const existing = await Admin.findOne({ where: { email } });
+
+    if (existing) {
+      console.log("ℹ️ حساب الأدمن موجود بالفعل:", email);
+      return;
+    }
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    await Admin.create({
+      email,
+      password: hashedPassword,
+    });
+
+    console.log("✅ تم إنشاء حساب الأدمن تلقائياً:", email);
+  } catch (err) {
+    console.error("❌ فشل إنشاء حساب الأدمن التلقائي:");
+    console.error(err);
+  }
+}
+
+// =========================
 // Server
 // =========================
 
@@ -87,8 +125,10 @@ const PORT = process.env.PORT || 4000;
 
 sequelize
   .sync()
-  .then(() => {
+  .then(async () => {
     console.log("✅ Database connected");
+
+    await ensureAdminExists();
 
     app.listen(PORT, () => {
       console.log(`✅ Server running on http://localhost:${PORT}`);
