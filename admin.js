@@ -300,6 +300,7 @@ function showDashboard() {
     loadProjects(); 
     loadServices(); 
     loadHeroSlides();   
+   loadSettings();
 }
 
   if (el.loginForm) {
