@@ -57,7 +57,7 @@ app.get("/cart", (req, res) => {
 
 // Static files (public folder: uploads, etc.)
 app.use(express.static(path.join(__dirname, "public")));
-
+app.use(express.static(path.join(__dirname))); // يخدم أي ملف في الجذر زي admin.css
 // =========================
 // API
 // =========================
