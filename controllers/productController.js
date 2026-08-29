@@ -82,24 +82,19 @@ async function createProduct(req, res) {
 async function updateProduct(req, res) {
   try {
     const product = await Product.findByPk(req.params.id);
-
     if (!product) {
       return res.status(404).json({ message: "المنتج غير موجود" });
     }
-
     const { title, description, price, oldPrice, discount, categoryId, isActive } = req.body;
-
     if (title !== undefined) product.title = title;
     if (description !== undefined) product.description = description;
     if (price !== undefined) product.price = price;
-    if (oldPrice !== undefined) product.oldPrice = oldPrice;
+    if (oldPrice !== undefined) product.oldPrice = oldPrice === "" ? null : oldPrice;
     if (discount !== undefined) product.discount = discount;
-    if (categoryId !== undefined) product.categoryId = categoryId;
+    if (categoryId !== undefined) product.categoryId = categoryId === "" ? null : categoryId;
     if (isActive !== undefined) product.isActive = isActive;
     if (req.file) product.image = `/uploads/${req.file.filename}`;
-
     await product.save();
-
     res.json(product);
   } catch (err) {
     console.error(err);
