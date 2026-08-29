@@ -1513,7 +1513,9 @@ async function loadSettings() {
   if (!elSettings.form) return;
 
   try {
-    const data = await apiRequest("/api/settings");
+    const raw = await apiRequest("/api/settings");
+    // بعض الـ APIs بترجع البيانات ملفوفة جوه data أو settings
+    const data = raw.settings || raw.data || raw || {};
 
     elSettings.siteName.value = data.siteName || "";
     elSettings.siteNameEn.value = data.siteNameEn || "";
