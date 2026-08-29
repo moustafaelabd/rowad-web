@@ -3,7 +3,6 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const path = require("path");
-const servicesRoutes = require("./routes/services");
 const { sequelize } = require("./models");
 const authRoutes = require("./routes/authRoutes");
 const categoryRoutes = require("./routes/categoryRoutes");
@@ -59,9 +58,6 @@ app.get("/cart", (req, res) => {
 // Static files (public folder: uploads, etc.)
 app.use(express.static(path.join(__dirname, "public")));
 
-// Static files اللي جنب index.html في الروت (style.css, dark-mode.css, dark-mode.js, script.js...)
-app.use(express.static(path.join(__dirname, "public")));
-
 // =========================
 // API
 // =========================
@@ -74,6 +70,7 @@ app.use("/api/projects", projectRoutes);
 app.use("/api/services", serviceRoutes);
 app.use("/api/hero-slides", heroSlideRoutes);
 app.use("/api/settings", settingsRoutes);
+
 // =========================
 // Home
 // =========================
