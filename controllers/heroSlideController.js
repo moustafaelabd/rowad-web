@@ -37,15 +37,15 @@ async function createSlide(req, res) {
   try {
     const payload = buildPayloadFromBody(req.body);
 
-  if (req.files) {
+if (req.files) {
   if (req.files.image && req.files.image[0]) {
-    payload.image = req.files.image[0].path;
+    slide.image = req.files.image[0].path;
   }
   if (req.files.videoThumbnail && req.files.videoThumbnail[0]) {
-    payload.videoThumbnail = req.files.videoThumbnail[0].path;
+    slide.videoThumbnail = req.files.videoThumbnail[0].path;
   }
   if (req.files.videoFile && req.files.videoFile[0]) {
-    payload.videoUrl = req.files.videoFile[0].path;
+    slide.videoUrl = req.files.videoFile[0].path;
   }
 }
 
