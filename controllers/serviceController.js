@@ -55,7 +55,7 @@ exports.createService = async (req, res) => {
     }
 
     // req.file جاي من الـ multer middleware (شوف routes/services.js)
-    const imagePath = req.file ? req.file.filename : null;
+    const imagePath = req.file ? req.file.path : null;
 
     const service = await Service.create({
       title: title.trim(),
@@ -90,9 +90,9 @@ exports.updateService = async (req, res) => {
     if (tag !== undefined) service.tag = tag;
     if (order !== undefined) service.order = parseInt(order, 10) || 0;
 
-    if (req.file) {
-      service.image = req.file.filename;
-    }
+if (req.file) {
+  service.image = req.file.path;
+}
 
     await service.save();
 
