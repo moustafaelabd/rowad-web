@@ -37,17 +37,17 @@ async function createSlide(req, res) {
   try {
     const payload = buildPayloadFromBody(req.body);
 
-    if (req.files) {
-      if (req.files.image && req.files.image[0]) {
-        payload.image = req.files.image[0].filename;
-      }
-      if (req.files.videoThumbnail && req.files.videoThumbnail[0]) {
-        payload.videoThumbnail = req.files.videoThumbnail[0].filename;
-      }
-      if (req.files.videoFile && req.files.videoFile[0]) {
-        payload.videoUrl = "/uploads/" + req.files.videoFile[0].filename;
-      }
-    }
+  if (req.files) {
+  if (req.files.image && req.files.image[0]) {
+    payload.image = req.files.image[0].path;
+  }
+  if (req.files.videoThumbnail && req.files.videoThumbnail[0]) {
+    payload.videoThumbnail = req.files.videoThumbnail[0].path;
+  }
+  if (req.files.videoFile && req.files.videoFile[0]) {
+    payload.videoUrl = req.files.videoFile[0].path;
+  }
+}
 
     const slide = await HeroSlide.create(payload);
     res.status(201).json(slide);
