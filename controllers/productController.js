@@ -6,10 +6,8 @@ async function getProducts(req, res) {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 10;
     const offset = (page - 1) * limit;
-
     const where = { isActive: true };
     if (req.query.categoryId) where.categoryId = req.query.categoryId;
-
     const { rows, count } = await Product.findAndCountAll({
       where,
       include: [{ model: Category, attributes: ["id", "name", "slug"] }],
@@ -17,7 +15,6 @@ async function getProducts(req, res) {
       limit,
       offset,
     });
-
     res.json({
       products: rows,
       total: count,
@@ -36,11 +33,9 @@ async function getProduct(req, res) {
     const product = await Product.findByPk(req.params.id, {
       include: [{ model: Category, attributes: ["id", "name", "slug"] }],
     });
-
     if (!product) {
       return res.status(404).json({ message: "المنتج غير موجود" });
     }
-
     res.json(product);
   } catch (err) {
     console.error(err);
@@ -52,15 +47,12 @@ async function getProduct(req, res) {
 async function createProduct(req, res) {
   try {
     const { title, description, price, oldPrice, discount, categoryId } = req.body;
-
     if (!title || !price) {
       return res.status(400).json({ message: "اسم المنتج والسعر مطلوبان" });
     }
-
     if (!req.file) {
       return res.status(400).json({ message: "صورة المنتج مطلوبة" });
     }
-
     const product = await Product.create({
       title,
       description,
@@ -68,9 +60,8 @@ async function createProduct(req, res) {
       oldPrice: oldPrice || null,
       discount: discount || null,
       categoryId: categoryId || null,
-      image: `/uploads/${req.file.filename}`,
+      image: req.file.path,
     });
-
     res.status(201).json(product);
   } catch (err) {
     console.error(err);
@@ -93,7 +84,7 @@ async function updateProduct(req, res) {
     if (discount !== undefined) product.discount = discount;
     if (categoryId !== undefined) product.categoryId = categoryId === "" ? null : categoryId;
     if (isActive !== undefined) product.isActive = isActive;
-    if (req.file) product.image = `/uploads/${req.file.filename}`;
+    if (req.file) product.image = req.file.path;
     await product.save();
     res.json(product);
   } catch (err) {
@@ -106,13 +97,10 @@ async function updateProduct(req, res) {
 async function deleteProduct(req, res) {
   try {
     const product = await Product.findByPk(req.params.id);
-
     if (!product) {
       return res.status(404).json({ message: "المنتج غير موجود" });
     }
-
     await product.destroy();
-
     res.json({ message: "تم حذف المنتج بنجاح" });
   } catch (err) {
     console.error(err);
