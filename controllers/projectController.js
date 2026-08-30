@@ -53,7 +53,7 @@ exports.createProject = async (req, res) => {
       tag: tag || null,
       description: description || null,
       order: order ? parseInt(order) : 0,
-      image: req.file.filename,
+      image: req.file.path,
     });
 
     res.status(201).json(project);
@@ -80,7 +80,7 @@ exports.updateProject = async (req, res) => {
       tag: tag ?? project.tag,
       description: description ?? project.description,
       order: order !== undefined ? parseInt(order) : project.order,
-      image: req.file ? req.file.filename : project.image,
+      image: req.file ? req.file.path : project.image,
     });
 
     if (req.file && oldImage) {
