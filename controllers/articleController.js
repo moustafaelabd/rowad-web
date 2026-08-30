@@ -91,7 +91,7 @@ exports.createArticle = async (req, res) => {
       metaDescription: metaDescription || excerpt || null,
       metaKeywords: metaKeywords || null,
       published: published === "true" || published === true,
-      image: req.file ? req.file.filename : null,
+      image: req.file ? req.file.path : null,
     });
 
     res.status(201).json(article);
@@ -140,14 +140,10 @@ exports.updateArticle = async (req, res) => {
       metaKeywords: metaKeywords ?? article.metaKeywords,
       published:
         published === undefined ? article.published : published === "true" || published === true,
-      image: req.file ? req.file.filename : article.image,
+      image: req.file ? req.file.path : article.image,
     });
 
-    // امسح الصورة القديمة لو اتغيرت
-    if (req.file && oldImage) {
-      const oldPath = path.join(__dirname, "..", "public", "uploads", oldImage);
-      fs.unlink(oldPath, () => {});
-    }
+  
 
     res.json(article);
   } catch (err) {
@@ -170,10 +166,6 @@ exports.deleteArticle = async (req, res) => {
       return res.status(404).json({ message: "المقال غير موجود" });
     }
 
-    if (article.image) {
-      const imgPath = path.join(__dirname, "..", "public", "uploads", article.image);
-      fs.unlink(imgPath, () => {});
-    }
 
     await article.destroy();
 
